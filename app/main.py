@@ -2,8 +2,10 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette import status
 
+from app.bearer import get_current_user
 from app.db.db import get_db
 from app.db.repository.user_repo import get_user_by_mail, register_user, get_new_token_by_id, as_user
+from app.db.tables.user_table import UserTable
 from app.models.user import UserRegister, UserLogin
 
 app = FastAPI()
@@ -33,3 +35,7 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Email is not registered"
         )
+
+@app.get("/me")
+def account(user: UserTable = Depends(get_current_user)):
+    return as_user(user)
