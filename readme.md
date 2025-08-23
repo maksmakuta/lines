@@ -6,6 +6,7 @@
 
  - Use database (SQLite used for simplicity)
  - Token authentification (Bearer)
+ - Simple pagination support
 
 ### Author
  Maks Makuta (C) 2025  
