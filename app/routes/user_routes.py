@@ -6,13 +6,15 @@ from app.db.tables import User
 from app.deps import get_current_user
 from app.models.comment import PagedComments
 from app.models.post import PagedPosts
+from app.models.subscription import PagedSubscriptions
 from app.models.user import UserInfo
 from app.services.auth_service import get_user_by_id
 from app.services.comment_service import get_comments, to_comment_list
 from app.services.models_services import to_user_info
 from app.services.post_service import get_posts, to_post_list
+from app.services.subscription_service import get_subscriptions, to_sub_item
 
-user_router = APIRouter(prefix="/users", tags=["user"])
+user_router = APIRouter(prefix="/user", tags=["user"])
 
 @user_router.get("/{user_id}", response_model=UserInfo)
 def get_user_account(
@@ -52,4 +54,20 @@ def get_user_comments(
         comments=to_comment_list(db, comments),
         page=page,
         limit=limit
+    )
+
+
+@user_router.get("/{user_id}/subs", response_model=PagedSubscriptions)
+def get_user_subscriptions(
+        user_id: int,
+        page: int = 0,
+        limit: int = 25,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+):
+    subs = get_subscriptions(db, user_id)
+    return PagedSubscriptions(
+        page=page,
+        limit=limit,
+        subs=[to_sub_item(db, s) for s in subs]
     )

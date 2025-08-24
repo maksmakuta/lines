@@ -8,7 +8,7 @@ from app.models.post import NewPost, PostItem, PostDetailsItem
 from app.models.response import DeleteResponse
 from app.services.post_service import create_post, to_post_item, remove_post, get_detailed_post
 
-post_router = APIRouter(prefix="/posts", tags=["posts"])
+post_router = APIRouter(prefix="/post", tags=["posts"])
 
 @post_router.put("/", response_model=PostItem)
 def new_post(

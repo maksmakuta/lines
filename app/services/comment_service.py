@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+
 from app.db.tables import Comment
 from app.models.comment import CommentItem
 from app.services.auth_service import get_user_by_id
@@ -19,16 +20,17 @@ def get_comments(db: Session, user_id: int, page: int = 0, limit: int = 25):
             .limit(limit)
             .all())
 
-def get_comment(db: Session, comment_id: int):
+
+def get_comment_by_id(db: Session, comment_id: int):
     return db.query(Comment).filter(Comment.id.is_(comment_id)).first()
 
-def delete_comment(db: Session, comment_id: int):
-    comment = get_comment(db, comment_id)
+
+def remove_comment(db: Session, comment_id: int):
+    comment = get_comment_by_id(db, comment_id)
     if comment:
         db.delete(comment)
         db.commit()
     return comment
-
 
 def to_comment_item(db: Session,p: Comment):
     return CommentItem(

@@ -2,8 +2,11 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.routes.auth_routes import auth_router
+from app.routes.comment_routes import comment_router
 from app.routes.feed_routes import feed_router
+from app.routes.like_routes import like_router
 from app.routes.post_routes import post_router
+from app.routes.subscription_routes import sub_router
 from app.routes.user_routes import user_router
 
 app = FastAPI()
@@ -17,41 +20,9 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(comment_router)
 app.include_router(feed_router)
-app.include_router(user_router)
+app.include_router(like_router)
 app.include_router(post_router)
-
-
-
-# COMMENTS
-@app.post("/comments")
-def new_comment():
-    pass
-
-@app.get("/comments/{comment_id}")
-def get_comment(comment_id: int):
-    pass
-
-@app.delete("/comments/{comment_id}")
-def delete_comment(comment_id: int):
-    pass
-
-
-# LIKES
-@app.post("/likes")
-def new_like():
-    pass
-
-@app.delete("/likes/{like_id}")
-def delete_like(like_id: int):
-    pass
-
-
-# SUBSCRIPTIONS
-@app.post("/subscriptions")
-def new_subscribe():
-    pass
-
-@app.delete("/subscriptions/{subscription_id}")
-def unsubscribe(subscription_id: int):
-    pass
+app.include_router(sub_router)
+app.include_router(user_router)
