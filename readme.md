@@ -1,4 +1,4 @@
-# Lines (WIP)
+# Lines
 
  Backend for Twitter/X like social network
 
@@ -10,7 +10,7 @@
 
 ### Dependencies
 
-- Python 3.13+
+- Python 3.13
 - FastAPI
 - SQLAlchemy
 
